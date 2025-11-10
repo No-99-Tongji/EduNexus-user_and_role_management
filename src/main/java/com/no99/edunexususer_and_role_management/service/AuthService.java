@@ -73,8 +73,28 @@ public class AuthService {
             throw new BadRequestException("No authenticated user found");
         }
 
-        CustomUserPrincipal userPrincipal = (CustomUserPrincipal) authentication.getPrincipal();
-        return UserResponse.fromUser(userPrincipal.getUser());
+        Object principal = authentication.getPrincipal();
+
+        // 检查是否为匿名用户
+        if (principal instanceof String && "anonymousUser".equals(principal)) {
+            throw new BadRequestException("User is not authenticated. Please provide a valid JWT token in the Authorization header (Bearer <token>)");
+        }
+
+        // 如果 principal 是 CustomUserPrincipal 类型
+        if (principal instanceof CustomUserPrincipal) {
+            CustomUserPrincipal userPrincipal = (CustomUserPrincipal) principal;
+            return UserResponse.fromUser(userPrincipal.getUser());
+        }
+
+        // 如果 principal 是 String 类型（username），则从数据库加载用户
+        if (principal instanceof String) {
+            String username = (String) principal;
+            User user = userMapper.findByUsername(username)
+                    .orElseThrow(() -> new BadRequestException("User not found: " + username));
+            return UserResponse.fromUser(user);
+        }
+
+        throw new BadRequestException("Invalid authentication principal type: " + principal.getClass().getName());
     }
 
     /**

@@ -21,6 +21,12 @@ public class MyBatisConfig {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
 
+        // 配置MyBatis
+        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
+        // 启用下划线到驼峰命名转换
+        configuration.setMapUnderscoreToCamelCase(true);
+        sessionFactory.setConfiguration(configuration);
+
         // 注册类型处理器
         sessionFactory.setTypeHandlers(new UserRoleTypeHandler());
 
