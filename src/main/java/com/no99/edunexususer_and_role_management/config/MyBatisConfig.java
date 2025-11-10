@@ -1,0 +1,29 @@
+package com.no99.edunexususer_and_role_management.config;
+
+import com.no99.edunexususer_and_role_management.config.UserRoleTypeHandler;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import javax.sql.DataSource;
+
+/**
+ * MyBatis配置类
+ */
+@Configuration
+@MapperScan("com.no99.edunexususer_and_role_management.mapper")
+public class MyBatisConfig {
+
+    @Bean
+    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
+        SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+        sessionFactory.setDataSource(dataSource);
+
+        // 注册类型处理器
+        sessionFactory.setTypeHandlers(new UserRoleTypeHandler());
+
+        return sessionFactory.getObject();
+    }
+}
