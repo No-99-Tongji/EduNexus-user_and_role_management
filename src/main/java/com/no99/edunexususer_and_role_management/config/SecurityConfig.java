@@ -30,7 +30,18 @@ public class SecurityConfig {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authz -> authz
-                // 允许所有请求,不需要认证
+                // Swagger UI 和 API 文档相关路径
+                .requestMatchers(
+                    "/swagger-ui/**",
+                    "/swagger-ui.html",
+                    "/v3/api-docs/**",
+                    "/swagger-resources/**",
+                    "/webjars/**",
+                    "/favicon.ico"
+                ).permitAll()
+                // 健康检查端点
+                .requestMatchers("/health", "/actuator/**").permitAll()
+                // 允许所有其他请求，不需要认证
                 .anyRequest().permitAll()
             );
 

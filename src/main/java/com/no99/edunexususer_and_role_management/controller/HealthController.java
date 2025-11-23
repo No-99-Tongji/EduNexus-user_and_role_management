@@ -14,7 +14,7 @@ import java.util.Map;
  * 健康检查控制器
  */
 @RestController
-@RequestMapping("/health")
+@RequestMapping("/api/users/health")
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Tag(name = "系统监控", description = "系统健康检查和服务信息API")
 public class HealthController {

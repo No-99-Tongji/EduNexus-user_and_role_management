@@ -22,7 +22,7 @@ import java.util.Map;
  * 认证控制器
  */
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/users/auth")
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Tag(name = "认证管理", description = "用户注册等认证相关API")
 public class AuthController {
