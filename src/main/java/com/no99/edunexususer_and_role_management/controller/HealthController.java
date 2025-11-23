@@ -52,7 +52,6 @@ public class HealthController {
             "author", "EduNexus Team",
             "features", new String[]{
                 "User Registration & Authentication",
-                "JWT Token Management",
                 "Role-based Authorization",
                 "User Profile Management",
                 "Password Encryption"
